@@ -273,6 +273,7 @@ docker-start:## 	start docker
 	     open --background -a /./Applications/Docker.app/Contents/MacOS/Docker;\
 	    fi;\
 	sleep 1;\
+	docker pull catthehacker/ubuntu:act-latest;\
 	done\
 	)
 
