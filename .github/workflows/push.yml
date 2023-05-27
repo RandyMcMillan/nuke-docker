@@ -19,7 +19,7 @@ jobs:
     - name: printenv
       run: printenv
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
       with:
         fetch-depth: 0 ## all branches/tags
 
