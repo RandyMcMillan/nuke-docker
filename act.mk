@@ -1,4 +1,3 @@
-push:## 	run act in .github
+push:## 	push.yml
 	$(MAKE) docker-start
-	@act $(VERBOSE) $(BIND) $(REUSE) \
-	-W .github/workflows/$@.yml
+	act $(VERBOSE) $(BIND) $(REUSE) -W .github/workflows/$@.yml

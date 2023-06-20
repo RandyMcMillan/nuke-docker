@@ -131,9 +131,6 @@ export GIT_REPO_NAME
 GIT_REPO_PATH							:= $(HOME)/$(GIT_REPO_NAME)
 export GIT_REPO_PATH
 
-BASENAME := $(shell basename -s .git `git config --get remote.origin.url` || echo $(PROJECT_NAME))
-export BASENAME
-
 NODE_VERSION                           :=v16.19.1
 export NODE_VERSION
 NODE_ALIAS                             :=v16.19.0
@@ -206,7 +203,6 @@ report:
 	@echo 'GIT_USER_NAME=${GIT_USER_NAME}'
 	@echo 'GH_USER_REPO=${GH_USER_REPO}'
 	@echo 'GH_USER_SPECIAL_REPO=${GH_USER_SPECIAL_REPO}'
-	@echo 'KB_USER_REPO=${KB_USER_REPO}'
 	@echo 'GIT_USER_EMAIL=${GIT_USER_EMAIL}'
 	@echo 'GIT_SERVER=${GIT_SERVER}'
 	@echo 'GIT_PROFILE=${GIT_PROFILE}'
@@ -307,7 +303,6 @@ venv:## 	create python3 virtualenv .venv
 	test -d .venv || $(PYTHON3) -m virtualenv .venv
 	( \
 	   source .venv/bin/activate; pip install -q -r requirements.txt; \
-	   python3 -m pip install -q omegaconf \
 	   pip install -q --upgrade pip; \
 	);
 	@echo "To activate (venv)"
@@ -315,13 +310,13 @@ venv:## 	create python3 virtualenv .venv
 	@echo ". .venv/bin/activate"
 	@echo "or:"
 	@echo "make test-venv"
-##:	test-venv            source .venv/bin/activate; pip install -r requirements.txt;
-test-venv:## 	test virutalenv .venv
+##:	venv-test           source .venv/bin/activate; pip install -r requirements.txt;
+venv-test:## 	test virutalenv .venv
 	# insert test commands here
+	@touch requirements.txt
 	test -d .venv || $(PYTHON3) -m virtualenv .venv
 	( \
 	   source .venv/bin/activate; pip install -q -r requirements.txt; \
-	   python3 -m pip install -q omegaconf \
 	   pip install -q --upgrade pip; \
 	);
 
