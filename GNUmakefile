@@ -130,9 +130,9 @@ export GIT_REPO_NAME
 GIT_REPO_PATH                           := $(HOME)/$(GIT_REPO_NAME)
 export GIT_REPO_PATH
 
-NODE_VERSION                           :=v16.19.1
+NODE_VERSION                           :=v16.20.1
 export NODE_VERSION
-NODE_ALIAS                             :=v16.19.0
+NODE_ALIAS                             :=v16.20.0
 export NODE_ALIAS
 NVM_DIR                                 :=$(HOME)/.nvm
 export NVM_DIR

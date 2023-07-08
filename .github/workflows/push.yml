@@ -19,21 +19,24 @@ jobs:
     - name: printenv
       run: printenv
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
-        fetch-depth: 0 ## all branches/tags
+        fetch-depth: '0' ## all branches/tags
+        submodules: 'recursive'
+        set-safe-directory: 'true'
 
     - name: Run Apt-get update
       run: apt-get update
 
     - name: Install dependencies
       run: |
-        apt-get --fix-missing -y install make
+        apt-get --fix-missing -y install docker*
+        apt-get --fix-missing -y install make git
         apt-get --fix-missing -y install quilt qemu-user-static debootstrap wget
         apt-get --fix-missing -y install bsdtar || echo
         apt-get --fix-missing -y install libarchive-tools || echo
         apt-get --fix-missing -y install python3 python3-pip || echo
-        apt-get --fix-missing -y install build-essentials coreutils || echo
+        apt-get --fix-missing -y install util-linux coreutils || echo
 
     - name: Install act
       run: |
