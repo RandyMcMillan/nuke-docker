@@ -285,12 +285,21 @@ venv-install:submodules## 	install python3.10
 venv-test:submodules## 	venv-3-10-test
 	$(MAKE) -f $(PWD)/venv.mk venv-3-10-test
 
-tag:## 	tag
-	@git tag $(OS)-$(OS_VERSION)-$(ARCH)-$(shell date +%s)
-	@git push -f --tags || echo "unable to push tags..."
+.PHONY: nvm
+.ONESHELL:
+nvm: ## 	nvm
+	@curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash || git pull -C $(HOME)/.nvm && export NVM_DIR="$(HOME)/.nvm" && [ -s "$(NVM_DIR)/nvm.sh" ] && \. "$(NVM_DIR)/nvm.sh" && [ -s "$(NVM_DIR)/bash_completion" ] && \. "$(NVM_DIR)/bash_completion"  && nvm install $(NODE_VERSION) && nvm use $(NODE_VERSION)
+	@source ~/.bashrc && nvm alias $(NODE_ALIAS) $(NODE_VERSION)
+
+clean-nvm: ## 	clean-nvm
+	@rm -rf ~/.nvm
 
 clean:## 	clean
 	@git clean -xfd && git submodule foreach --recursive git clean -xfd && git reset --hard && git submodule foreach --recursive git reset --hard && git submodule update --init --recursive
+
+tag:
+	@git tag $(OS)-$(OS_VERSION)-$(ARCH)-$(shell date +%s)
+	@git push -f --tags || echo "unable to push tags..."
 
 -include Makefile
 -include venv.mk
