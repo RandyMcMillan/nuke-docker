@@ -40,6 +40,9 @@ export PIP
 PIP2                                    := $(notdir $(shell which pip2 || echo))
 export PIP2
 PIP3                                    := $(notdir $(shell which pip3 || echo))
+ifeq ($(PIP3),)
+PIP3                                    := $(notdir $(shell which pip || echo))
+endif
 export PIP3
 
 ifeq ($(PYTHON3),/usr/local/bin/python3)
