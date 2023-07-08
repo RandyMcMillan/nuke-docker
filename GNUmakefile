@@ -45,17 +45,34 @@ PIP3                                    := $(notdir $(shell which pip || echo))
 endif
 export PIP3
 
-ifeq ($(PYTHON3),/usr/local/bin/python3)
-PIP                                    := pip
-PIP3                                   := pip
-export PIP
-export PIP3
-endif
+#ifeq ($(PYTHON3),/usr/local/bin/python3)
+#PIP                                    := pip
+#PIP3                                   := pip
+#export PIP
+#export PIP3
+#endif
 
-PYTHON_VENV                             := $(shell python -c "import sys; sys.stdout.write('1') if hasattr(sys, 'base_prefix') else sys.stdout.write('0')")
-PYTHON3_VENV                            := $(shell python3 -c "import sys; sys.stdout.write('1') if hasattr(sys, 'real_prefix') else sys.stdout.write('0')")
+#detect python
+PYTHON_ENV                              = $(shell python -c "import sys; sys.stdout.write('1')  if hasattr(sys, 'base_prefix') else sys.stdout.write('0')" 2>/dev/null)
+#detect python3
+PYTHON3_ENV                             = $(shell python3 -c "import sys; sys.stdout.write('1') if hasattr(sys, 'base_prefix') else sys.stdout.write('0')")
+export PYTHON_ENV
+export PYTHON3_ENV
+
+ifeq ($(PYTHON_ENV),1)
+#likely in virtualenv
+PYTHON_VENV                             := $(shell python -c "import sys; sys.stdout.write('1') if sys.prefix != sys.base_prefix else sys.stdout.write('0')" 2>/dev/null)
+endif
 export PYTHON_VENV
+
+ifeq ($(PYTHON_VENV),1)
+PYTHON3_VENV                            := $(shell python3 -c "import sys; sys.stdout.write('1') if sys.prefix != sys.base_prefix else sys.stdout.write('0')")
+else
+PYTHON_VENV                             :=$(PYTHON_ENV)
+PYTHON3_VENV                            :=$(PYTHON3_ENV)
+endif
 export PYTHON3_VENV
+
 ifeq ($(PYTHON_VENV),0)
 USER_FLAG                               :=--user
 else
@@ -214,6 +231,7 @@ ifneq ($(shell id -u),0)
 	sudo -s
 endif
 
+checkbrew:##
 ## checkbrew
 ifeq ($(HOMEBREW),)
 	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && $(MAKE) success || $(MAKE) failure
