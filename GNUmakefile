@@ -1,8 +1,6 @@
-SHELL := /bin/bash
-PWD 									?= pwd_unknown
-THIS_FILE								:= $(lastword $(MAKEFILE_LIST))
-export THIS_FILE
-TIME									:= $(shell date +%s)
+SHELL                                   := /bin/bash
+PWD                                     ?= pwd_unknown
+TIME                                    := $(shell date +%s)
 export TIME
 
 OS                                      :=$(shell uname -s)
